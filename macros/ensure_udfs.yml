@@ -1,0 +1,5 @@
+version: 2
+
+macros:
+  - name: ensure_udfs
+    description: Creates UDFs specified in the macro. Does not clean up any UDFs that are removed.

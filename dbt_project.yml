@@ -1,0 +1,49 @@
+# there's a bunch of metadata in here that might only really make sense in dbt cloud
+# In the deployments I've been involved with I've found that there's no discernable value in setting these values.
+# As such I set these parameters to generic values that line everything up in a given repo.
+name: 'product' # only referred to in this config file
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'current'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# can document seeds if present
+# seeds:
+#   +persist_docs:
+#     relation: true
+#     columns: true
+
+models:
+  +labels:
+    # add labels to database objects
+    stability: stable
+    data_classification: public
+  +persist_docs:
+    # push any model/column descriptions to the target database
+    relation: true
+    columns: true
+
+tests:
+  product:
+      # example used here to limit the data scanned by the query
+      # note the predicate pushdown to the underlying timestamp column in the source data if possible
+      # +where: download_date BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 4 DAY) AND DATE_SUB(CURRENT_DATE, INTERVAL 1 DAY)
+
+on-run-start:
+  -  "{{ ensure_target_dataset_exists() }}" # may or may not be appropriate for your environmental constraints
+  -  "{{ ensure_udfs() }}" 

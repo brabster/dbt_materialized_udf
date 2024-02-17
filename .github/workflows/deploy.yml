@@ -1,0 +1,39 @@
+name: deploy-to-gcp
+on:
+  push: {}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PIP_REQUIRE_VIRTUALENV: true
+    permissions:
+        contents: read
+        id-token: write
+        actions: read
+        pages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup_dbt
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 363.0.0'
+      - name: ensure prod dataset exists
+        run: |
+          source .venv/bin/activate
+          source .envs/prod/.env
+          dbt deps
+          dbt run-operation ensure_target_dataset_exists
+          # bq update --source .envs/prod/dataset_acl.json "${DBT_PROJECT}:${DBT_DATASET}"
+      - name: prod dbt build
+        uses: ./.github/actions/dbt_build
+        with:
+          env: prod
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: target
+      - uses: actions/deploy-pages@v4
+        

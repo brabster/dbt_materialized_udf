@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: bbc_news
+    database: bigquery-public-data
+    schema: bbc_news
+    description: See documentation at https://packaging.python.org/en/latest/guides/analyzing-pypi-package-downloads/#public-dataset
+    tables:
+      - name: fulltext
+        columns:
+          - name: body
+            tests:
+              - not_null
+          - name: title
+            tests:
+              - not_null
+          - name: filename
+            tests:
+              - not_null
+              - unique
+          - name: category
+              - not_null

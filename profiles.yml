@@ -1,0 +1,15 @@
+config:
+  send_anonymous_usage_stats: false
+  use_colors: true
+
+current:
+  outputs:
+    current:
+      dataset: "{{ env_var('DBT_DATASET') }}"
+      location: "{{ env_var('DBT_LOCATION') }}"
+      method: oauth
+      priority: interactive
+      project: "{{ env_var('DBT_PROJECT') }}"
+      threads: "{{ env_var('DBT_THREADS', 8) }}"
+      type: bigquery
+  target: current

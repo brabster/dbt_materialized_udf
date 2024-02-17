@@ -1,0 +1,31 @@
+
+name: dbt build in venv
+description: Runs dbt build from venv
+inputs:
+  env:
+    required: true
+    description: Environment file to source
+runs:
+  using: composite
+  steps:
+    - name: dbt build for ${{ inputs.env }}
+      shell: bash
+      run: |
+          source .venv/bin/activate
+          source .envs/${{ inputs.env }}/.env
+          rm -rf logs
+          dbt clean
+          dbt deps
+          dbt debug
+          dbt build
+          dbt docs generate
+    - name: upload target artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dbt_artifacts_${{ inputs.env }}
+        path: |
+          target
+          logs
+
+
+

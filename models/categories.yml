@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: categories
+    description: News article categories and counts
+    columns:
+      - name: category
+        description: Category name
+        tests:
+          - dbt_utils.at_least_one
+          - unique
+          - not_null
+      - name: article_count
+        description: Number of articles in category
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+        

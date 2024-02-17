@@ -1,0 +1,5 @@
+version: 2
+
+macros:
+  - name: ensure_target_dataset_exists
+    description: Creates the specified dataset if it does not exist and the executor has permission
