@@ -1,0 +1,6 @@
+version: 2
+
+macros:
+  - name: udf
+    description: A materialization for UDFs as models
+    
