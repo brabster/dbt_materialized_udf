@@ -9,4 +9,6 @@
 
 # Overview
 
-Experimental repo for UDFs as DBT materializations
+Experimental repo for UDFs as DBT materializations.
+
+This repo supports [my blog post Materialized UDFs in a DBT World](https://tempered.works/posts/2024/02/19/materialized-udfs-in-a-dbt-world/).
