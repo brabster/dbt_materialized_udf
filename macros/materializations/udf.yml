@@ -2,5 +2,15 @@ version: 2
 
 macros:
   - name: udf
-    description: A materialization for UDFs as models
+    description: |
+      A materialization for UDFs as models.
+      Usage example: a reusable algorithm to generate a stable, portable identifier by hashing.
+      ```sql
+        {{ config(
+            materialized='udf',
+            parameter_list='val STRING',
+            description='Returns a portable hash of the input value.'
+        ) }}
+        UPPER(TO_HEX(MD5(val)))
+      ```
     

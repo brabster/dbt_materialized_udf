@@ -11,4 +11,7 @@
 
 Experimental repo for UDFs as DBT materializations. Adapter/dbt support is under discussion at https://github.com/dbt-labs/dbt-core/discussions/10395
 
+Edit - added examples for UDAFs and stored procedure results.
+
 This repo supports [my blog post Materialized UDFs in a DBT World](https://tempered.works/posts/2024/02/19/materialized-udfs-in-a-dbt-world/).
+

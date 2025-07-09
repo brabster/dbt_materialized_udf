@@ -1,0 +1,21 @@
+version: 2
+
+macros:
+  - name: procedure_output
+    description: |
+      A materialization for the results of stored procedure invocation.
+      Example usage with BigQuery's chi-squared stored procedure to produce a chi-squared test result https://github.com/GoogleCloudPlatform/bigquery-utils/blob/master/stored_procedures/definitions/chi_square.sqlx in a dbt pipeline:
+      ```sql
+        {{ config(
+            materialized='procedure_output',
+            output_select='result.x AS chi_square_statistic, result.dof AS degrees_of_freedom, result.p AS p_value',
+        ) }}
+        DECLARE result STRUCT<x FLOAT64, dof FLOAT64, p FLOAT64>;
+
+        CALL bqutil.procedure_eu.chi_square(
+            'myproject.mydataset.my_source_data_table',
+            'my_independent_var_column',
+            'my_dependent_var_column',
+            result
+        );
+      ```
