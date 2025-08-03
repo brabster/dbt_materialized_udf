@@ -1,0 +1,11 @@
+current:
+  outputs:
+    current:
+      dataset: "{{ env_var('DBT_DATASET', 'sandbox') }}"
+      location: "{{ env_var('DBT_LOCATION', 'US') }}"
+      method: oauth
+      priority: interactive
+      project: "{{ env_var('GOOGLE_CLOUD_PROJECT') }}"
+      threads: "{{ env_var('DBT_THREADS', 8) }}"
+      type: bigquery
+  target: current

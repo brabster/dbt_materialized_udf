@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+gcloud auth login \
+    --update-adc \
+    --billing-project "${GOOGLE_CLOUD_PROJECT}" \
+    --project "${GOOGLE_CLOUD_PROJECT}"
