@@ -1,0 +1,15 @@
+version: 2
+
+macros:
+  - name: udaf
+    description: |
+      A materialization for aggregate UDFs as models.
+      Usage example: capturing logic to count members of a group, but null the result when the count is below 100.
+      ```sql
+        {{ config(
+            materialized='udaf',
+            parameter_list='',
+            description='Returns the count of rows. If the count is less than 100, it returns NULL.'
+        ) }}
+        IF(COUNT(1) < 100, NULL, COUNT(1))
+      ```

@@ -1,7 +1,7 @@
 # there's a bunch of metadata in here that might only really make sense in dbt cloud
 # In the deployments I've been involved with I've found that there's no discernable value in setting these values.
 # As such I set these parameters to generic values that line everything up in a given repo.
-name: dbt_materialized_udf
+name: usage_example
 version: 0.0.1
 config-version: 2
 
@@ -11,26 +11,18 @@ profile: 'current'
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
-model-paths: ["models"]
+model-paths: ["models", "udfs", "udafs", "procedures"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
-macro-paths: ["macros"]
+macro-paths: ["macros", "../macros"]
 snapshot-paths: ["snapshots"]
 
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
-models:
-  +labels:
-    # add labels to database objects
-    stability: stable
-    data_classification: public
-  +persist_docs:
-    # push any model/column descriptions to the target database
-    relation: true
-    columns: true
+models: {}
 
 tests: {}
 

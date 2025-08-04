@@ -1,23 +1,19 @@
-{% materialization udf, adapter="bigquery" %}
+{% materialization procedure_output, adapter="bigquery" %}
 {%- set target = adapter.quote(this.database ~ '.' ~ this.schema ~ '.' ~ this.identifier) -%}
 
 {%- set target_relation = api.Relation.create(identifier=this.identifier, schema=this.schema, database=this.database) -%}
 
-{%- set parameter_list=config.get('parameter_list') -%}
-{%- set ret=config.get('returns') -%}
-{%- set description=config.get('description') -%}
+{%- set output_select=config.get('output_select') -%}
 
 {%- set create_sql -%}
-CREATE OR REPLACE FUNCTION {{ target }}({{ parameter_list }})
-{%- if ret %}
-RETURNS {{ ret }}
-{%- endif %}
-OPTIONS (
-  description='{{ description }}'
-)
-AS (
+BEGIN
+
   {{ sql }}
-);
+
+  CREATE OR REPLACE TABLE {{ target }}
+  AS SELECT {{ output_select }};
+
+END
 {%- endset -%}
 
 {% call statement('main') -%}

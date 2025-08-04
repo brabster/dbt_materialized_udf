@@ -1,4 +1,4 @@
-{% materialization udf, adapter="bigquery" %}
+{% materialization udaf, adapter="bigquery" %}
 {%- set target = adapter.quote(this.database ~ '.' ~ this.schema ~ '.' ~ this.identifier) -%}
 
 {%- set target_relation = api.Relation.create(identifier=this.identifier, schema=this.schema, database=this.database) -%}
@@ -8,7 +8,7 @@
 {%- set description=config.get('description') -%}
 
 {%- set create_sql -%}
-CREATE OR REPLACE FUNCTION {{ target }}({{ parameter_list }})
+CREATE OR REPLACE AGGREGATE FUNCTION {{ target }}({{ parameter_list }})
 {%- if ret %}
 RETURNS {{ ret }}
 {%- endif %}
