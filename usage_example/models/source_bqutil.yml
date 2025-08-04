@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+    - name: bqutil
+      database: bqutil
+      schema: procedure
+      tables:
+        - name: chi_square
+      

@@ -4,7 +4,7 @@
 ) }}
 DECLARE result STRUCT<x FLOAT64, dof FLOAT64, p FLOAT64>;
 
-CALL bqutil.procedure.chi_square(
+CALL {{ source('bqutil', 'chi_square') }}(
     'bigquery-public-data.ml_datasets.penguins',
     'island',
     'species',
