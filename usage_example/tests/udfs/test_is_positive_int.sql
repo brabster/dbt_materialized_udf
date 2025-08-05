@@ -1,5 +1,5 @@
 WITH examples AS (
-    SELECT '10' input, TRUE expected
+    SELECT '10' maybe_positive_int_column, TRUE expected
     UNION ALL SELECT '-4', FALSE expected
     UNION ALL SELECT '+8', TRUE expected
     UNION ALL SELECT '1.0', FALSE expected
@@ -8,7 +8,7 @@ WITH examples AS (
 test AS (
     SELECT
         *,
-        {{ ref('is_positive_int') }}(input) actual
+        {{ ref('is_positive_int') }}(maybe_positive_int_column) actual
     FROM examples
 )
 
